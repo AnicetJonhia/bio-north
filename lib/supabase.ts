@@ -54,3 +54,11 @@ export interface Category {
   created_at: string
   updated_at: string
 }
+
+
+export interface ContactInfo {
+  id: string
+  key: string
+  value: string
+  updated_at: string
+}

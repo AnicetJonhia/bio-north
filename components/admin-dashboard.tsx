@@ -36,17 +36,27 @@ import { useLanguage } from "@/contexts/language-context"
 import { useProducts } from "@/hooks/use-products"
 import { useCategories } from "@/hooks/use-categories"
 import { useMessages } from "@/hooks/use-messages"
+import { useContactInfo } from "@/hooks/use-contact-info"
 import { logout } from "@/lib/auth"
 
 export default function AdminDashboard() {
   const { t } = useLanguage()
   const { products, loading: productsLoading, createProduct, updateProduct, deleteProduct } = useProducts()
   const { categories, loading: categoriesLoading, createCategory, updateCategory, deleteCategory } = useCategories()
-  const { messages, loading: messagesLoading, updateMessageStatus } = useMessages()
+  const { messages, loading: messagesLoading, updateMessageStatus, deleteMessage, getMessageById } = useMessages()
+  const { contactInfo, loading: contactInfoLoading, updateContactInfo, getContactValue } = useContactInfo()
 
   const [stats, setStats] = useState<any>(null)
   const [editingProduct, setEditingProduct] = useState<any>(null)
   const [editingCategory, setEditingCategory] = useState<any>(null)
+  const [viewingMessage, setViewingMessage] = useState<any>(null)
+  const [contactData, setContactData] = useState({
+    phone: "",
+    email: "",
+    address: "",
+    facebook: "",
+    linkedin: "",
+  })
   const [newProduct, setNewProduct] = useState({
     name: "",
     name_en: "",
@@ -405,7 +415,7 @@ export default function AdminDashboard() {
     </div>
   )
 
-  if (productsLoading || categoriesLoading || messagesLoading) {
+  if (productsLoading || categoriesLoading || messagesLoading || contactInfoLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -1145,6 +1155,109 @@ export default function AdminDashboard() {
             </DialogContent>
           </Dialog>
         )}
+
+        {/* View Message Dialog */}
+        {viewingMessage && (
+          <Dialog open={!!viewingMessage} onOpenChange={() => setViewingMessage(null)}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t.admin.messages.viewTitle}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <Label>{t.admin.messages.table.name}</Label>
+                  <Input value={`${viewingMessage.first_name} ${viewingMessage.last_name}`} disabled />
+                </div>
+                <div>
+                  <Label>{t.admin.messages.table.email}</Label>
+                  <Input value={viewingMessage.email} disabled />
+                </div>
+                <div>
+                  <Label>{t.admin.messages.table.subject}</Label>
+                  <Input value={viewingMessage.subject} disabled />
+                </div>
+                <div>
+                  <Label>{t.admin.messages.table.date}</Label>
+                  <Input value={formatDate(viewingMessage.created_at)} disabled />
+                </div>
+                <div>
+                  <Label>{t.admin.messages.table.message}</Label>
+                  <Textarea value={viewingMessage.message} disabled rows={5} />
+                </div>
+                <div className="flex gap-4">
+                  <Button onClick={() => setViewingMessage(null)} variant="outline">
+                    {t.admin.messages.actions.close}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+
+        {/* Contact Info Tab */}
+        <TabsContent value="contact-info" className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.admin.contactInfo.title}</h2>
+            <p className="text-gray-600 mb-6">{t.admin.contactInfo.description}</p>
+          </div>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label>{t.admin.contactInfo.phone}</Label>
+                  <Input
+                    value={contactData.phone}
+                    onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
+                    placeholder="034 48 224 12"
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.email}</Label>
+                  <Input
+                    value={contactData.email}
+                    onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                    placeholder="contact@bio-north.mg"
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.address}</Label>
+                  <Textarea
+                    value={contactData.address}
+                    onChange={(e) => setContactData({ ...contactData, address: e.target.value })}
+                    placeholder={"Andapa Region Sava"}
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.facebook}</Label>
+                  <Input
+                    value={contactData.facebook}
+                    onChange={(e) => setContactData({ ...contactData, facebook: e.target.value })}
+                    placeholder=""
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.linkedin}</Label>
+                  <Input
+                    value={contactData.linkedin}
+                    onChange={(e) => setContactData({ ...contactData, linkedin: e.target.value })}
+                    placeholder=""
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-4">
+                <Button onClick={() => updateContactInfo(contactData)} className="bg-green-600 hover:bg-green-700">
+                  {t.admin.contactInfo.actions.update}
+                </Button>
+                <Button variant="outline" onClick={() => setContactData(contactInfo)}>
+                  {t.admin.contactInfo.actions.reset}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </div>
     </div>
   )

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Bio North Madagascar - Produits Bio & Locaux de Madagascar",
   description:
     "Découvrez l'authenticité des produits biologiques malgaches de la région SAVA. Épices, huiles essentielles, plantes médicinales et produits artisanaux de qualité exceptionnelle.",
-  keywords: "Madagascar, bio, produits locaux, épices, vanille, SAVA, Andapa, agriculture biologique",
+  keywords: "Bio, Bio North, bio, bio north , bionorth, Bio North Madagascar, Madagascar, produits locaux, épices, vanille, SAVA, Andapa, agriculture biologique",
   authors: [{ name: "Bio North Madagascar" }],
   openGraph: {
     title: "Bio North Madagascar - Produits Bio & Locaux",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
   },
-    generator: 'v0.dev'
+    generator: 'AnicetJonhia'
 }
 
 export default function RootLayout({
@@ -30,6 +30,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+    <meta name="darkreader" content="NO-DARKREADER-PLUGIN" />
+
       <body className={inter.className}>
         <LanguageProvider>
           <Header />
