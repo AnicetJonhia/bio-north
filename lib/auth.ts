@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 
 const ADMIN_CREDENTIALS = {
   email: "admin@bionorthmadagascar.mg",
-  password: "BioNorth2024!",
+  password: "BioNorth2025!",
 }
 
 export async function login(email: string, password: string) {
