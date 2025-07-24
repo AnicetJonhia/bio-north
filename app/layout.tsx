@@ -30,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-    <meta name="darkreader" content="NO-DARKREADER-PLUGIN" />
+
 
       <body className={inter.className}>
         <LanguageProvider>

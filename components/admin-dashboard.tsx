@@ -459,10 +459,14 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               {t.admin.tabs.overview}
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4" />
+              {t.admin.tabs.analytics}
             </TabsTrigger>
             <TabsTrigger value="categories" className="flex items-center gap-2">
               <FolderOpen className="w-4 h-4" />
@@ -480,10 +484,13 @@ export default function AdminDashboard() {
               <MessageSquare className="w-4 h-4" />
               {t.admin.tabs.messages}
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              {t.admin.tabs.analytics}
+
+            <TabsTrigger value="contact-info" className="flex items-center gap-2">
+              <Eye className="w-4 h-4" />
+              {t.admin.tabs.contactInfo}
             </TabsTrigger>
+
+
           </TabsList>
 
           {/* Overview Tab */}
@@ -972,6 +979,72 @@ export default function AdminDashboard() {
               </Card>
             </div>
           </TabsContent>
+
+
+               {/* Contact Info Tab */}
+        <TabsContent value="contact-info" className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.admin.contactInfo.title}</h2>
+            <p className="text-gray-600 mb-6">{t.admin.contactInfo.description}</p>
+          </div>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label>{t.admin.contactInfo.phone}</Label>
+                  <Input
+                    value={contactData.phone}
+                    onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
+                    placeholder="034 48 224 12"
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.email}</Label>
+                  <Input
+                    value={contactData.email}
+                    onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                    placeholder="contact@bio-north.mg"
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.address}</Label>
+                  <Textarea
+                    value={contactData.address}
+                    onChange={(e) => setContactData({ ...contactData, address: e.target.value })}
+                    placeholder={"Andapa Region Sava"}
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.facebook}</Label>
+                  <Input
+                    value={contactData.facebook}
+                    onChange={(e) => setContactData({ ...contactData, facebook: e.target.value })}
+                    placeholder=""
+                  />
+                </div>
+                <div>
+                  <Label>{t.admin.contactInfo.linkedin}</Label>
+                  <Input
+                    value={contactData.linkedin}
+                    onChange={(e) => setContactData({ ...contactData, linkedin: e.target.value })}
+                    placeholder=""
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-4">
+                <Button onClick={() => updateContactInfo(contactData)} className="bg-green-600 hover:bg-green-700">
+                  {t.admin.contactInfo.actions.update}
+                </Button>
+                <Button variant="outline" onClick={() => setContactData(contactInfo)}>
+                  {t.admin.contactInfo.actions.reset}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
         </Tabs>
 
         {/* Edit Product Dialog */}
@@ -1194,70 +1267,7 @@ export default function AdminDashboard() {
           </Dialog>
         )}
 
-        {/* Contact Info Tab */}
-        <TabsContent value="contact-info" className="space-y-6">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.admin.contactInfo.title}</h2>
-            <p className="text-gray-600 mb-6">{t.admin.contactInfo.description}</p>
-          </div>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <Label>{t.admin.contactInfo.phone}</Label>
-                  <Input
-                    value={contactData.phone}
-                    onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
-                    placeholder="034 48 224 12"
-                  />
-                </div>
-                <div>
-                  <Label>{t.admin.contactInfo.email}</Label>
-                  <Input
-                    value={contactData.email}
-                    onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
-                    placeholder="contact@bio-north.mg"
-                  />
-                </div>
-                <div>
-                  <Label>{t.admin.contactInfo.address}</Label>
-                  <Textarea
-                    value={contactData.address}
-                    onChange={(e) => setContactData({ ...contactData, address: e.target.value })}
-                    placeholder={"Andapa Region Sava"}
-                    rows={3}
-                  />
-                </div>
-                <div>
-                  <Label>{t.admin.contactInfo.facebook}</Label>
-                  <Input
-                    value={contactData.facebook}
-                    onChange={(e) => setContactData({ ...contactData, facebook: e.target.value })}
-                    placeholder=""
-                  />
-                </div>
-                <div>
-                  <Label>{t.admin.contactInfo.linkedin}</Label>
-                  <Input
-                    value={contactData.linkedin}
-                    onChange={(e) => setContactData({ ...contactData, linkedin: e.target.value })}
-                    placeholder=""
-                  />
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-4">
-                <Button onClick={() => updateContactInfo(contactData)} className="bg-green-600 hover:bg-green-700">
-                  {t.admin.contactInfo.actions.update}
-                </Button>
-                <Button variant="outline" onClick={() => setContactData(contactInfo)}>
-                  {t.admin.contactInfo.actions.reset}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
       </div>
     </div>
   )
