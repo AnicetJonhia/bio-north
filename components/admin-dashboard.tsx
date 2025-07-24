@@ -459,39 +459,41 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
-            <TabsTrigger value="overview" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              {t.admin.tabs.overview}
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              {t.admin.tabs.analytics}
-            </TabsTrigger>
-            <TabsTrigger value="categories" className="flex items-center gap-2">
-              <FolderOpen className="w-4 h-4" />
-              {t.admin.tabs.categories}
-            </TabsTrigger>
-            <TabsTrigger value="products" className="flex items-center gap-2">
-              <Package className="w-4 h-4" />
-              {t.admin.tabs.products}
-            </TabsTrigger>
-            <TabsTrigger value="add-product" className="flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              {t.admin.tabs.addProduct}
-            </TabsTrigger>
-            <TabsTrigger value="messages" className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" />
-              {t.admin.tabs.messages}
-            </TabsTrigger>
+          <div className="overflow-x-auto">
+            <TabsList className="flex w-max min-w-full space-x-2 px-2">
+              <TabsTrigger value="overview" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4" />
+                {t.admin.tabs.overview}
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4" />
+                {t.admin.tabs.analytics}
+              </TabsTrigger>
+              <TabsTrigger value="categories" className="flex items-center gap-2">
+                <FolderOpen className="w-4 h-4" />
+                {t.admin.tabs.categories}
+              </TabsTrigger>
+              <TabsTrigger value="products" className="flex items-center gap-2">
+                <Package className="w-4 h-4" />
+                {t.admin.tabs.products}
+              </TabsTrigger>
+              <TabsTrigger value="add-product" className="flex items-center gap-2">
+                <Plus className="w-4 h-4" />
+                {t.admin.tabs.addProduct}
+              </TabsTrigger>
+              <TabsTrigger value="messages" className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4" />
+                {t.admin.tabs.messages}
+              </TabsTrigger>
+              <TabsTrigger value="contact-info" className="flex items-center gap-2">
+                <Eye className="w-4 h-4" />
+                {t.admin.tabs.contactInfo}
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-            <TabsTrigger value="contact-info" className="flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              {t.admin.tabs.contactInfo}
-            </TabsTrigger>
 
 
-          </TabsList>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
