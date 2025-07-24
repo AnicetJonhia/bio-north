@@ -31,6 +31,7 @@ import {
   ImageIcon,
   Upload,
   X,
+    Signature
 } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { useProducts } from "@/hooks/use-products"
@@ -43,7 +44,7 @@ export default function AdminDashboard() {
   const { t } = useLanguage()
   const { products, loading: productsLoading, createProduct, updateProduct, deleteProduct } = useProducts()
   const { categories, loading: categoriesLoading, createCategory, updateCategory, deleteCategory } = useCategories()
-  const { messages, loading: messagesLoading, updateMessageStatus, deleteMessage, getMessageById } = useMessages()
+  const { messages, loading: messagesLoading, updateMessageStatus, deleteMessage } = useMessages()
   const { contactInfo, loading: contactInfoLoading, updateContactInfo, getContactValue } = useContactInfo()
 
   const [stats, setStats] = useState<any>(null)
@@ -486,7 +487,7 @@ export default function AdminDashboard() {
                 {t.admin.tabs.messages}
               </TabsTrigger>
               <TabsTrigger value="contact-info" className="flex items-center gap-2">
-                <Eye className="w-4 h-4" />
+                <Signature className="w-4 h-4" />
                 {t.admin.tabs.contactInfo}
               </TabsTrigger>
             </TabsList>
