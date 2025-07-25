@@ -93,3 +93,18 @@ INSERT INTO site_content (key, value_fr, value_en) VALUES
 ('company_phone', '+261 XX XX XXX XX', '+261 XX XX XXX XX'),
 ('company_email', 'contact@bionorthmadagascar.mg', 'contact@bionorthmadagascar.mg'),
 ('company_address', 'Andapa, Région SAVA, Madagascar', 'Andapa, SAVA Region, Madagascar');
+
+
+
+-- Insertion des données par défaut
+INSERT INTO contact_info (key, value) VALUES
+('company_name', 'Bio North Madagascar SARL'),
+('address', 'Andapa, Région SAVA, Madagascar'),
+('phone', '+261 34 48 224 12'),
+('email', 'contact@bionorthmadagascar.mg'),
+('facebook_url', 'https://facebook.com/bionorthmadagascar'),
+('linkedin_url', 'https://linkedin.com/company/bionorthmadagascar'),
+('business_hours_weekdays', 'Lundi - Vendredi: 8h00 - 17h00'),
+('business_hours_saturday', 'Samedi: 8h00 - 12h00'),
+('business_hours_sunday', 'Dimanche: Fermé')
+ON CONFLICT (key) DO NOTHING;

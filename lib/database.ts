@@ -1,4 +1,32 @@
-import { supabase, type Product, type ContactMessage, type SiteContent, type Category } from "./supabase"
+import {
+  supabase,
+  type Product,
+  type ContactMessage,
+  type SiteContent,
+  type Category,
+  type ContactInfo,
+} from "./supabase"
+
+// Fonctions pour les informations de contact
+export async function getContactInfo() {
+  const { data, error } = await supabase.from("contact_info").select("*").order("key")
+
+  if (error) {
+    if (error.code === "42P01") {
+      console.warn("[getContactInfo] La table 'contact_info' n'existe pas encore. Retour d'une liste vide.")
+      return [] as ContactInfo[]
+    }
+    throw error
+  }
+
+  return data as ContactInfo[]
+}
+
+export async function updateContactInfo(key: string, value: string) {
+  const { data, error } = await supabase.from("contact_info").upsert([{ key, value }]).select().single()
+  if (error) throw error
+  return data as ContactInfo
+}
 
 // Fonctions pour les catégories
 export async function getCategories() {
@@ -121,6 +149,12 @@ export async function getContactMessages() {
   }
 
   return data as ContactMessage[]
+}
+
+export async function getContactMessageById(id: string) {
+  const { data, error } = await supabase.from("contact_messages").select("*").eq("id", id).single()
+  if (error) throw error
+  return data as ContactMessage
 }
 
 export async function updateContactMessageStatus(id: string, status: ContactMessage["status"]) {

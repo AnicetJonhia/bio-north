@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS contact_messages CASCADE;
 DROP TABLE IF EXISTS site_content CASCADE;
+DROP TABLE IF EXISTS contact_info CASCADE;
+
 
 -- Table des catégories
 CREATE TABLE categories (
@@ -65,6 +67,16 @@ CREATE INDEX idx_contact_messages_status ON contact_messages(status);
 CREATE INDEX idx_contact_messages_created_at ON contact_messages(created_at);
 CREATE INDEX idx_categories_name ON categories(name);
 
+
+
+-- Table des informations de contact (pour les coordonnées de l'entreprise)
+CREATE TABLE IF NOT EXISTS contact_info (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  key VARCHAR(100) UNIQUE NOT NULL,
+  value TEXT NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Fonction pour mettre à jour automatiquement updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -82,4 +94,8 @@ CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON categories
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_site_content_updated_at BEFORE UPDATE ON site_content
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+
+CREATE TRIGGER update_contact_info_updated_at BEFORE UPDATE ON contact_info
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
