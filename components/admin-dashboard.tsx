@@ -92,7 +92,12 @@ export default function AdminDashboard() {
 
   const [openMessageDetailDialog, setOpenMessageDetailDialog] = useState(false)
   const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isDeletingMessage, setIsDeletingMessage] = useState(false)
+
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
+  const [isDeletingCategory, setIsDeletingCategory] = useState(false)
+  const [isConfirmDialogDeletingCategory, setIsConfirmDialogDeletingCategory] = useState(false);
 
   useEffect(() => {
     fetchStats()
@@ -299,15 +304,25 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleDeleteCategory = async (id: string) => {
-    if (confirm(t.admin.categories.confirmDelete)) {
+  const handleDeleteCategory = (id : string)=> {
+    setSelectedCategoryId(id);
+    setIsConfirmDialogDeletingCategory(true);
+  }
+
+  const confirmDeleteCategory = async () => {
+    if (!selectedCategoryId) return
+      setIsDeletingCategory(true)
+
       try {
-        await deleteCategory(id)
+        await deleteCategory(selectedCategoryId)
         setAlert({ type: "success", message: t.admin.categories.success.deleted })
       } catch (error) {
         setAlert({ type: "error", message: t.admin.categories.error.delete })
+      } finally {
+        setIsDeletingCategory(false)
+        setIsConfirmDialogDeletingCategory(false)
       }
-    }
+
   }
 
   const handleLogout = async () => {
@@ -436,7 +451,7 @@ export default function AdminDashboard() {
 
   const confirmDeleteMessage = async () => {
     if (!selectedMessageId) return
-    setIsDeleting(true)
+    setIsDeletingMessage(true)
     try {
       await deleteMessage(selectedMessageId)
       setAlert({ type: "success", message: t.admin.messages.actions.deleted })
@@ -444,7 +459,7 @@ export default function AdminDashboard() {
     } catch (error) {
       setAlert({ type: "error", message: t.admin.messages.actions.deleteError })
     } finally {
-      setIsDeleting(false)
+      setIsDeletingMessage(false)
       setOpenMessageDetailDialog(false)
       setSelectedMessageId(null)
 
@@ -1338,12 +1353,32 @@ export default function AdminDashboard() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel disabled={isDeleting}>{t.admin.messages.actions.cancel}</AlertDialogCancel>
-              <AlertDialogAction onClick={confirmDeleteMessage} disabled={isDeleting}>
-                {isDeleting ? t.admin.messages.actions.delete + "..." : t.admin.messages.actions.delete}
+              <AlertDialogCancel disabled={isDeletingMessage}>{t.admin.messages.actions.cancel}</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmDeleteMessage} disabled={isDeletingMessage}>
+                {isDeletingMessage ? t.admin.messages.actions.delete + "..." : t.admin.messages.actions.delete}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
+        </AlertDialog>
+
+
+        {/* Delete Category Confirmation Dialog */}
+
+        <AlertDialog open={isConfirmDialogDeletingCategory} onOpenChange={setIsConfirmDialogDeletingCategory}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogDescription>
+                {t.admin.categories.confirmDelete}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isDeletingCategory}>{t.admin.categories.actions.cancel}</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmDeleteCategory} disabled={isDeletingCategory}>
+                {isDeletingCategory ? t.admin.categories.actions.delete + "..." : t.admin.categories.actions.delete}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+
         </AlertDialog>
 
 
