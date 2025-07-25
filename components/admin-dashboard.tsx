@@ -15,6 +15,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog"
+
 import {
   LogOut,
   CheckCircle,
@@ -50,6 +52,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null)
   const [editingProduct, setEditingProduct] = useState<any>(null)
   const [editingCategory, setEditingCategory] = useState<any>(null)
+  const [isAddCategoryDialogOpen, setIsAddCategoryDialogOpen] = useState(false)
 
   const [viewingMessage, setViewingMessage] = useState<any>(null)
   const [contactData, setContactData] = useState({
@@ -86,6 +89,10 @@ export default function AdminDashboard() {
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const [openMessageDetailDialog, setOpenMessageDetailDialog] = useState(false)
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     fetchStats()
@@ -262,6 +269,7 @@ export default function AdminDashboard() {
   }
 
   const handleAddCategory = async () => {
+
     try {
       await createCategory(newCategory)
       setNewCategory({
@@ -274,6 +282,8 @@ export default function AdminDashboard() {
       setAlert({ type: "success", message: t.admin.categories.success.added })
     } catch (error) {
       setAlert({ type: "error", message: t.admin.categories.error.add })
+    } finally {
+      setIsAddCategoryDialogOpen(false);
     }
   }
 
@@ -418,17 +428,29 @@ export default function AdminDashboard() {
   )
 
 
-  const handeleDeleteMessage = async (id: string) => {
 
-      try {
-        await deleteMessage(id)
-        setAlert({ type: "success", message: t.admin.messages.actions.deleted })
-        fetchStats()
-      } catch (error) {
-        setAlert({ type: "error", message: t.admin.messages.actions.deleteError })
-      }
-
+  const handleDeleteMessage = (id: string) => {
+    setSelectedMessageId(id)
+    setOpenMessageDetailDialog(true)
   }
+
+  const confirmDeleteMessage = async () => {
+    if (!selectedMessageId) return
+    setIsDeleting(true)
+    try {
+      await deleteMessage(selectedMessageId)
+      setAlert({ type: "success", message: t.admin.messages.actions.deleted })
+      fetchStats()
+    } catch (error) {
+      setAlert({ type: "error", message: t.admin.messages.actions.deleteError })
+    } finally {
+      setIsDeleting(false)
+      setOpenMessageDetailDialog(false)
+      setSelectedMessageId(null)
+
+    }
+  }
+
 
   if (productsLoading || categoriesLoading || messagesLoading || contactInfoLoading) {
     return (
@@ -573,7 +595,7 @@ export default function AdminDashboard() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.admin.categories.title}</h2>
                 <p className="text-gray-600 mb-6">{t.admin.categories.description}</p>
               </div>
-              <Dialog>
+              <Dialog open={isAddCategoryDialogOpen} onOpenChange={setIsAddCategoryDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-green-600 hover:bg-green-700">
                     <Plus className="w-4 h-4 mr-2" />
@@ -638,7 +660,12 @@ export default function AdminDashboard() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button onClick={handleAddCategory} className="w-full bg-green-600 hover:bg-green-700">
+                    <Button onClick={() =>{
+
+                        handleAddCategory();
+                        setIsAddCategoryDialogOpen(false);
+                      }}
+                            className="w-full bg-green-600 hover:bg-green-700">
                       {t.admin.categories.actions.add}
                     </Button>
                   </div>
@@ -938,7 +965,7 @@ export default function AdminDashboard() {
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button size={"sm"} variant={"outline"} className="text-red-600 hover:text-red-700" onClick={() => handeleDeleteMessage(message.id)}>
+                            <Button size={"sm"} variant={"outline"} className="text-red-600 hover:text-red-700" onClick={() => handleDeleteMessage(message.id)}>
                               <Trash2 className={"w-4 h-4"}/>
                             </Button>
                           </div>
@@ -1287,7 +1314,7 @@ export default function AdminDashboard() {
                     {t.admin.messages.actions.close}
                   </Button>
                   <Button variant={"destructive"} onClick={() => {
-                    handeleDeleteMessage(viewingMessage.id);
+                    handleDeleteMessage(viewingMessage.id);
                     setViewingMessage(null);
 
                   }}>
@@ -1299,6 +1326,26 @@ export default function AdminDashboard() {
             </DialogContent>
           </Dialog>
         )}
+
+
+
+        {/* Delete Confirmation Dialog */}
+          <AlertDialog open={openMessageDetailDialog} onOpenChange={setOpenMessageDetailDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogDescription>
+                {t.admin.messages.actions.confirmDelete}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isDeleting}>{t.admin.messages.actions.cancel}</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmDeleteMessage} disabled={isDeleting}>
+                {isDeleting ? t.admin.messages.actions.delete + "..." : t.admin.messages.actions.delete}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
 
 
       </div>

@@ -21,13 +21,13 @@ export async function POST(request: Request) {
     const contactMessage = await createContactMessage(body)
 
     // Ici vous pourriez ajouter l'envoi d'email de notification
-    console.log("New contact message received:", {
-      id: contactMessage.id,
-      from: `${first_name} ${last_name}`,
-      email,
-      subject,
-      message,
-    })
+    // console.log("New contact message received:", {
+    //   id: contactMessage.id,
+    //   from: `${first_name} ${last_name}`,
+    //   email,
+    //   subject,
+    //   message,
+    // })
 
     return NextResponse.json(
       {

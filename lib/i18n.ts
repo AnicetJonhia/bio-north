@@ -447,6 +447,7 @@ export const translations = {
           deleted: "Message supprimé avec succès !",
           deleteError: "Erreur lors de la suppression du message",
           close:"Fermer",
+          cancel:"Annuler",
         },
         empty: "Aucun message pour le moment",
       },
@@ -977,6 +978,7 @@ export const translations = {
           deleteError:" Error deleting message",
 
           close:"Close",
+          cancel:"Cancel",
         },
         empty: "No messages yet",
       },
