@@ -1,6 +1,22 @@
 import { NextResponse } from "next/server"
-import { updateContactMessageStatus } from "@/lib/database"
+import { updateContactMessageStatus, deleteContactMessage, getContactMessageById } from "@/lib/database"
 import { isAuthenticated } from "@/lib/auth"
+
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const authenticated = await isAuthenticated()
+    if (!authenticated) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const { id } = await params
+    const message = await getContactMessageById(id)
+    return NextResponse.json(message)
+  } catch (error) {
+    console.error("Error fetching message:", error)
+    return NextResponse.json({ error: "Failed to fetch message" }, { status: 500 })
+  }
+}
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -33,7 +49,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     const { id } = await params
-    // Ici vous pourriez ajouter une fonction deleteContactMessage dans database.ts
+    await deleteContactMessage(id)
     return NextResponse.json({ message: "Message deleted successfully" })
   } catch (error) {
     console.error("Error deleting message:", error)
