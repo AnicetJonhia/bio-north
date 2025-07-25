@@ -50,6 +50,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null)
   const [editingProduct, setEditingProduct] = useState<any>(null)
   const [editingCategory, setEditingCategory] = useState<any>(null)
+
   const [viewingMessage, setViewingMessage] = useState<any>(null)
   const [contactData, setContactData] = useState({
     phone: "",
@@ -415,6 +416,19 @@ export default function AdminDashboard() {
       </div>
     </div>
   )
+
+
+  const handeleDeleteMessage = async (id: string) => {
+
+      try {
+        await deleteMessage(id)
+        setAlert({ type: "success", message: t.admin.messages.actions.deleted })
+        fetchStats()
+      } catch (error) {
+        setAlert({ type: "error", message: t.admin.messages.actions.deleteError })
+      }
+
+  }
 
   if (productsLoading || categoriesLoading || messagesLoading || contactInfoLoading) {
     return (
@@ -917,8 +931,15 @@ export default function AdminDashboard() {
                         <TableCell>{getStatusBadge(message.status)}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Button size="sm" variant="outline" onClick={() => updateMessageStatus(message.id, "read")}>
+                            <Button size="sm" variant="outline" onClick={() => {
+                              setViewingMessage(message)
+                              updateMessageStatus(message.id, "read")}
+                            }
+                            >
                               <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button size={"sm"} variant={"outline"} className="text-red-600 hover:text-red-700" onClick={() => handeleDeleteMessage(message.id)}>
+                              <Trash2 className={"w-4 h-4"}/>
                             </Button>
                           </div>
                         </TableCell>
@@ -1238,7 +1259,7 @@ export default function AdminDashboard() {
           <Dialog open={!!viewingMessage} onOpenChange={() => setViewingMessage(null)}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t.admin.messages.viewTitle}</DialogTitle>
+                <DialogTitle>{t.admin.messages.messageDetails}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div>
@@ -1258,12 +1279,20 @@ export default function AdminDashboard() {
                   <Input value={formatDate(viewingMessage.created_at)} disabled />
                 </div>
                 <div>
-                  <Label>{t.admin.messages.table.message}</Label>
+                  <Label>{t.admin.messages.content}</Label>
                   <Textarea value={viewingMessage.message} disabled rows={5} />
                 </div>
                 <div className="flex gap-4">
                   <Button onClick={() => setViewingMessage(null)} variant="outline">
                     {t.admin.messages.actions.close}
+                  </Button>
+                  <Button variant={"destructive"} onClick={() => {
+                    handeleDeleteMessage(viewingMessage.id);
+                    setViewingMessage(null);
+
+                  }}>
+
+                    {t.admin.messages.actions.delete}
                   </Button>
                 </div>
               </div>
