@@ -99,6 +99,12 @@ export default function AdminDashboard() {
   const [isDeletingCategory, setIsDeletingCategory] = useState(false)
   const [isConfirmDialogDeletingCategory, setIsConfirmDialogDeletingCategory] = useState(false);
 
+
+
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
+  const [isDeletingProduct, setIsDeletingProduct] = useState(false)
+  const [isConfirmDialogDeletingProduct, setIsConfirmDialogDeletingProduct] = useState(false);
+
   useEffect(() => {
     fetchStats()
   }, [])
@@ -261,15 +267,26 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleDeleteProduct = async (id: string) => {
-    if (confirm(t.admin.products.actions.confirmDelete)) {
-      try {
-        await deleteProduct(id)
+  const handleDeleteProduct =  (id: string) => {
+    setSelectedProductId(id);
+    setIsConfirmDialogDeletingProduct(true);
+  }
+
+
+  const confirmDeleteProduct = async () => {
+    if (!selectedProductId) return
+    setIsDeletingProduct(true)
+
+    try {
+        await deleteProduct(selectedProductId)
         setAlert({ type: "success", message: "Produit supprimé avec succès !" })
         fetchStats()
       } catch (error) {
         setAlert({ type: "error", message: "Erreur lors de la suppression" })
-      }
+      }finally {
+        setIsDeletingProduct(false)
+        setIsConfirmDialogDeletingProduct(false)
+        setSelectedProductId(null)
     }
   }
 
@@ -1379,6 +1396,24 @@ export default function AdminDashboard() {
             </AlertDialogFooter>
           </AlertDialogContent>
 
+        </AlertDialog>
+
+
+        {/* Delete Product Confirmation Dialog */}
+        <AlertDialog open={isConfirmDialogDeletingProduct} onOpenChange={setIsConfirmDialogDeletingProduct}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogDescription>
+                {t.admin.products.actions.confirmDelete}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isDeletingProduct}>{t.admin.products.actions.cancel}</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmDeleteProduct} disabled={isDeletingProduct}>
+                {isDeletingProduct ? t.admin.products.actions.delete + "..." : t.admin.products.actions.delete}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         </AlertDialog>
 
 
