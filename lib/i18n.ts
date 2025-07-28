@@ -367,6 +367,7 @@ export const translations = {
           view: "Voir",
           delete: "Supprimer",
           confirmDelete: "Êtes-vous sûr de vouloir supprimer ce produit ?",
+          cancel: "Annuler"
         },
       },
       addProduct: {
@@ -897,6 +898,7 @@ export const translations = {
           view: "View",
           delete: "Delete",
           confirmDelete: "Are you sure you want to delete this product?",
+          cancel: "Cancel"
         },
       },
       addProduct: {
