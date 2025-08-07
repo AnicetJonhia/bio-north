@@ -306,6 +306,7 @@ export const translations = {
         actions: {
           add: "Ajouter les contacts",
           update: "Mettre à jour",
+            updating: "Mise à jour ...",
           edit: "Modifier",
           delete: "Supprimer",
           cancel: "Annuler",
@@ -839,6 +840,7 @@ export const translations = {
          actions: {
           add: "Add Contact",
           update: "Update",
+             updating : "Updating ...",
           edit: "Edit",
           delete: "Delete",
           cancel: "Cancel",

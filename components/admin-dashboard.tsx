@@ -105,14 +105,9 @@ export default function AdminDashboard() {
   const [isDeletingProduct, setIsDeletingProduct] = useState(false)
   const [isConfirmDialogDeletingProduct, setIsConfirmDialogDeletingProduct] = useState(false);
 
-  useEffect(() => {
-    fetchStats()
-      fetchContactInfo()
-  }, [])
+    const [isUpdating, setIsUpdating] = useState(false)
 
-
-    useEffect(() => {
-        if (contactInfo) {
+  const initialContactInfo = () => {
         setContactData({
             phone: getContactValue("phone"),
             email: getContactValue("email"),
@@ -120,6 +115,17 @@ export default function AdminDashboard() {
             facebook: getContactValue("facebook"),
             linkedin: getContactValue("linkedin"),
         })
+    }
+
+    useEffect(() => {
+    fetchStats()
+      fetchContactInfo()
+  }, [])
+
+
+    useEffect(() => {
+        if (contactInfo) {
+            initialContactInfo();
         }
     }, [contactInfo])
 
@@ -500,6 +506,7 @@ export default function AdminDashboard() {
 
 
     const handleUpdateContactInfo = async () => {
+        setIsUpdating(true)
         const updates = Object.entries(contactData).map(([key, value]) => ({
             key,
             value,
@@ -507,8 +514,12 @@ export default function AdminDashboard() {
         try {
             await updateContactInfo(updates)
             setAlert({ type: "success", message: t.admin.contactInfo.success })
+
         } catch (error) {
             setAlert({ type: "error", message: t.admin.contactInfo.error })
+
+        } finally {
+            setIsUpdating(false)
         }
     }
 
@@ -1147,11 +1158,14 @@ export default function AdminDashboard() {
               </div>
 
               <div className="mt-6 flex gap-4">
-                <Button onClick={handleUpdateContactInfo}
+                <Button disabled={isUpdating} onClick={handleUpdateContactInfo}
                         className="bg-green-600 hover:bg-green-700">
-                  {t.admin.contactInfo.actions.update}
+                    {isUpdating
+                        ? t.admin.contactInfo.actions.updating
+                        : t.admin.contactInfo.actions.update
+                    }
                 </Button>
-                <Button variant="outline" onClick={() => setContactData(contactInfo)}>
+                <Button variant="outline" onClick={initialContactInfo}>
                   {t.admin.contactInfo.actions.reset}
                 </Button>
               </div>
