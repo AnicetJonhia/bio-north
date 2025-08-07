@@ -251,7 +251,7 @@ export const translations = {
       },
       map: {
         title: "Notre Localisation",
-        description: "Située au cœur de la région SAVA, réputée pour ses produits d'exception",
+        description: "Réputée pour ses produits d'exception",
         location: "Andapa, Région SAVA",
         coming: "Carte interactive disponible prochainement",
       },
@@ -784,7 +784,7 @@ export const translations = {
       },
       map: {
         title: "Our Location",
-        description: "Located in the heart of the SAVA region, renowned for its exceptional products",
+        description: "Renowned for its exceptional products",
         location: "Andapa, SAVA Region",
         coming: "Interactive map coming soon",
       },

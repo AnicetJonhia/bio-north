@@ -59,6 +59,14 @@ CREATE TABLE site_content (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Table des informations de contact (pour les coordonnées de l'entreprise)
+CREATE TABLE IF NOT EXISTS contact_info (
+                                            id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    key VARCHAR(100) UNIQUE NOT NULL,
+    value TEXT NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    );
+
 -- Index pour améliorer les performances
 CREATE INDEX idx_products_category ON products(category);
 CREATE INDEX idx_products_category_id ON products(category_id);
@@ -69,13 +77,7 @@ CREATE INDEX idx_categories_name ON categories(name);
 
 
 
--- Table des informations de contact (pour les coordonnées de l'entreprise)
-CREATE TABLE IF NOT EXISTS contact_info (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  key VARCHAR(100) UNIQUE NOT NULL,
-  value TEXT NOT NULL,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+
 
 -- Fonction pour mettre à jour automatiquement updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()

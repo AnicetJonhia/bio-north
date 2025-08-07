@@ -1,5 +1,9 @@
 "use client"
 
+
+import type React from "react"
+
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,6 +15,13 @@ import { useContactInfo } from "@/hooks/use-contact-info"
 export default function ContactPage() {
   const { t } = useLanguage()
     const { contactInfo } = useContactInfo()
+
+    const contactData = contactInfo.reduce((acc, item) => {
+        acc[item.key] = item.value;
+        return acc;
+    }, {} as Record<string, string>);
+
+
 
 
   return (
@@ -57,7 +68,7 @@ export default function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 whitespace-pre-line">{t.contact.info.address.value}</p>
+                    <p className="text-gray-700 whitespace-pre-line">{contactData?.address}</p>
                   </CardContent>
                 </Card>
 
@@ -74,7 +85,7 @@ export default function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 font-medium">{t.contact.info.phone.value}</p>
+                    <p className="text-gray-700 font-medium">{contactData?.phone}</p>
                     <p className="text-sm text-gray-500">{t.contact.info.phone.hours}</p>
                   </CardContent>
                 </Card>
@@ -92,44 +103,39 @@ export default function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 font-medium">{t.contact.info.email.value}</p>
+                    <p className="text-gray-700 font-medium">{contactData?.email}</p>
                     <p className="text-sm text-gray-500">{t.contact.info.email.response}</p>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <Clock className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg">{t.contact.info.schedule.title}</CardTitle>
-                        <CardDescription>{t.contact.info.schedule.subtitle}</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-1 text-gray-700">
-                      <p>{t.contact.info.schedule.weekdays}</p>
-                      <p>{t.contact.info.schedule.saturday}</p>
-                      <p>{t.contact.info.schedule.sunday}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+
               </div>
 
               {/* Social Media */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">{t.contact.info.social}</h3>
                 <div className="flex gap-4">
-                  <Button variant="outline" size="lg" className="flex-1 bg-transparent">
+                  <Button asChild variant="outline" size="lg" className="flex-1 bg-transparent">
+                      <a
+                          href={contactData?.facebook_url || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center"
+                      >
                     <Facebook className="w-5 h-5 mr-2" />
                     Facebook
+                      </a>
                   </Button>
-                  <Button variant="outline" size="lg" className="flex-1 bg-transparent">
-                    <Linkedin className="w-5 h-5 mr-2" />
-                    LinkedIn
+                  <Button asChild variant="outline" size="lg" className="flex-1 bg-transparent">
+                      <a
+                          href={contactData?.linkedin_url || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center"
+                      >
+                        <Linkedin className="w-5 h-5 mr-2" />
+                        LinkedIn
+                        </a>
                   </Button>
                 </div>
               </div>
@@ -150,7 +156,7 @@ export default function ContactPage() {
             <div className="aspect-video bg-gray-200 flex items-center justify-center">
               <div className="text-center">
                 <MapPin className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{t.contact.map.location}</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{contactData?.address}</h3>
                 <p className="text-gray-600">{t.contact.map.coming}</p>
               </div>
             </div>
