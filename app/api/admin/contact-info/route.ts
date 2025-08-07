@@ -4,10 +4,6 @@ import { isAuthenticated } from "@/lib/auth"
 
 export async function GET() {
   try {
-    const authenticated = await isAuthenticated()
-    if (!authenticated) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
 
     const contactInfo = await getContactInfo()
     return NextResponse.json(contactInfo)
@@ -18,6 +14,8 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
+
+
   try {
     const authenticated = await isAuthenticated()
     if (!authenticated) {

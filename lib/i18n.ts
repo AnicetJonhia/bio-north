@@ -309,6 +309,7 @@ export const translations = {
           edit: "Modifier",
           delete: "Supprimer",
           cancel: "Annuler",
+          reset: "Réinitialiser",
         },
 
       },
@@ -841,6 +842,7 @@ export const translations = {
           edit: "Edit",
           delete: "Delete",
           cancel: "Cancel",
+           reset: "Reset",
         },
       },
       categories: {
