@@ -47,7 +47,7 @@ export default function AdminDashboard() {
   const { products, loading: productsLoading, createProduct, updateProduct, deleteProduct } = useProducts()
   const { categories, loading: categoriesLoading, createCategory, updateCategory, deleteCategory } = useCategories()
   const { messages, loading: messagesLoading, updateMessageStatus, deleteMessage } = useMessages()
-  const { contactInfo, loading: contactInfoLoading, updateContactInfo, getContactValue } = useContactInfo()
+  const { contactInfo, loading: contactInfoLoading,fetchContactInfo, updateContactInfo, getContactValue } = useContactInfo()
 
   const [stats, setStats] = useState<any>(null)
   const [editingProduct, setEditingProduct] = useState<any>(null)
@@ -107,7 +107,21 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchStats()
+      fetchContactInfo()
   }, [])
+
+
+    useEffect(() => {
+        if (contactInfo) {
+        setContactData({
+            phone: getContactValue("phone"),
+            email: getContactValue("email"),
+            address: getContactValue("address"),
+            facebook: getContactValue("facebook"),
+            linkedin: getContactValue("linkedin"),
+        })
+        }
+    }, [contactInfo])
 
   const fetchStats = async () => {
     try {
@@ -484,7 +498,23 @@ export default function AdminDashboard() {
   }
 
 
-  if (productsLoading || categoriesLoading || messagesLoading || contactInfoLoading) {
+
+    const handleUpdateContactInfo = async () => {
+        const updates = Object.entries(contactData).map(([key, value]) => ({
+            key,
+            value,
+        }))
+        try {
+            await updateContactInfo(updates)
+            setAlert({ type: "success", message: t.admin.contactInfo.success })
+        } catch (error) {
+            setAlert({ type: "error", message: t.admin.contactInfo.error })
+        }
+    }
+
+
+
+    if (productsLoading || categoriesLoading || messagesLoading || contactInfoLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -1117,10 +1147,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="mt-6 flex gap-4">
-                <Button onClick={() => {
-
-                    updateContactInfo(contactData);
-                }}
+                <Button onClick={handleUpdateContactInfo}
                         className="bg-green-600 hover:bg-green-700">
                   {t.admin.contactInfo.actions.update}
                 </Button>

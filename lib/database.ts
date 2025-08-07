@@ -23,10 +23,19 @@ export async function getContactInfo() {
 }
 
 export async function updateContactInfo(key: string, value: string) {
-  const { data, error } = await supabase.from("contact_info").upsert([{ key, value }]).select().single()
-  if (error) throw error
-  return data as ContactInfo
+    const { data, error } = await supabase
+        .from("contact_info")
+        .upsert(
+            [{ key, value }],
+            { onConflict: "key", returning: "representation" }
+        )
+        .select()
+        .single()
+
+    if (error) throw error
+    return data as ContactInfo
 }
+
 
 // Fonctions pour les catégories
 export async function getCategories() {
