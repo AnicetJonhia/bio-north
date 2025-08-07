@@ -257,7 +257,7 @@ export default function AdminDashboard() {
 
   const handleUpdateProduct = async () => {
     if (!editingProduct) return
-
+    setIsUpdating(true)
     try {
       const certifications =
         typeof editingProduct.certifications === "string"
@@ -284,6 +284,8 @@ export default function AdminDashboard() {
       fetchStats()
     } catch (error) {
       setAlert({ type: "error", message: t.admin.addProduct.updateError })
+    } finally {
+        setIsUpdating(false)
     }
   }
 
@@ -331,13 +333,15 @@ export default function AdminDashboard() {
 
   const handleUpdateCategory = async () => {
     if (!editingCategory) return
-
+    setIsUpdating(true)
     try {
       await updateCategory(editingCategory.id, editingCategory)
       setEditingCategory(null)
       setAlert({ type: "success", message: t.admin.categories.success.updated })
     } catch (error) {
       setAlert({ type: "error", message: t.admin.categories.error.update })
+    } finally {
+        setIsUpdating(false)
     }
   }
 
@@ -1280,9 +1284,12 @@ export default function AdminDashboard() {
                   <Button
                     onClick={handleUpdateProduct}
                     className="bg-green-600 hover:bg-green-700"
-                    disabled={uploading}
+                    disabled={uploading || isUpdating}
+
                   >
-                    {t.admin.addProduct.actions.update}
+                    { isUpdating ?
+                        t.admin.addProduct.actions.updating
+                        : t.admin.addProduct.actions.update}
                   </Button>
 
 
@@ -1346,8 +1353,11 @@ export default function AdminDashboard() {
                   </Select>
                 </div>
                 <div className="flex gap-4">
-                  <Button onClick={handleUpdateCategory} className="bg-green-600 hover:bg-green-700">
-                    {t.admin.categories.actions.update}
+                  <Button disabled={isUpdating} onClick={handleUpdateCategory} className="bg-green-600 hover:bg-green-700">
+                    { isUpdating
+                        ? t.admin.categories.actions.updating
+                    : t.admin.categories.actions.update
+                    }
                   </Button>
                   <Button variant="outline" onClick={() => setEditingCategory(null)}>
                     {t.admin.categories.actions.cancel}
