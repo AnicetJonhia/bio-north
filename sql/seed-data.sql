@@ -104,4 +104,4 @@ INSERT INTO contact_info (key, value) VALUES
 ('email', 'contact@bionorthmadagascar.mg'),
 ('facebook', 'https://facebook.com/bionorthmadagascar'),
 ('linkedin', 'https://linkedin.com/company/bionorthmadagascar')
-ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW();
+ON CONFLICT (key) DO NOTHING;

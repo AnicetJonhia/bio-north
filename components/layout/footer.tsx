@@ -3,9 +3,11 @@
 import Link from "next/link"
 import { Leaf, Mail, Phone, MapPin, Facebook, Linkedin, Shield } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
+import { useContactInfo } from "@/hooks/use-contact-info"
 
 export default function Footer() {
   const { t } = useLanguage()
+    const { getContactValue } = useContactInfo()
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -97,17 +99,17 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                 <div className="text-gray-400 text-sm">
-                  <div>Andapa, Région SAVA</div>
-                  <div>Madagascar</div>
+                  <div>{getContactValue("address")}</div>
+
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">+261 XX XX XXX XX</span>
+                <span className="text-gray-400 text-sm">{getContactValue("phone")}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">contact@bionorthmadagascar.mg</span>
+                <span className="text-gray-400 text-sm">{getContactValue("email")}</span>
               </div>
             </div>
           </div>
@@ -115,7 +117,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">© 2024 Bio North Madagascar SARL. {t.footer.rights}</p>
+            <p className="text-gray-400 text-sm">© 2024 {getContactValue("company_name")}. {t.footer.rights}</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
                 {t.footer.privacy}
