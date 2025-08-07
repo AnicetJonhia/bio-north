@@ -6,9 +6,12 @@ import { Badge } from "@/components/ui/badge"
 import { MapPin, Phone, Mail, Clock, Facebook, Linkedin } from "lucide-react"
 import ContactForm from "@/components/contact-form"
 import { useLanguage } from "@/contexts/language-context"
+import { useContactInfo } from "@/hooks/use-contact-info"
 
 export default function ContactPage() {
   const { t } = useLanguage()
+    const { contactInfo } = useContactInfo()
+
 
   return (
     <div className="min-h-screen">

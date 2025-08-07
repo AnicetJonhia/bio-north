@@ -33,6 +33,9 @@ export function useContactInfo() {
   }
 
   const updateContactInfo = async (updates: { key: string; value: string }[]) => {
+
+
+
     try {
       const response = await fetch("/api/admin/contact-info", {
         method: "PUT",

@@ -15,7 +15,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog"
+import { AlertDialog,  AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog"
 
 import {
   LogOut,
@@ -561,9 +561,6 @@ export default function AdminDashboard() {
             </TabsList>
           </div>
 
-
-
-
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             <div>
@@ -615,6 +612,59 @@ export default function AdminDashboard() {
                     {stats?.messages?.newMessages || messages.filter((m) => m.status === "new").length}
                   </div>
                   <p className="text-xs text-muted-foreground">{t.admin.analytics.thisWeek}</p>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+          {/* Analytics Tab */}
+          <TabsContent value="analytics" className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.admin.analytics.title}</h2>
+              <p className="text-gray-600 mb-6">{t.admin.analytics.description}</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">{t.admin.analytics.totalProducts}</CardTitle>
+                  <Package className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{products.length}</div>
+                  <p className="text-xs text-muted-foreground">{t.admin.analytics.catalog}</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">{t.admin.analytics.availableProducts}</CardTitle>
+                  <CheckCircle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{products.filter((p) => p.available).length}</div>
+                  <p className="text-xs text-muted-foreground">{t.admin.analytics.catalog}</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">{t.admin.analytics.totalStock}</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{products.reduce((sum, p) => sum + p.stock, 0)}</div>
+                  <p className="text-xs text-muted-foreground">{t.admin.analytics.units}</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">{t.admin.analytics.lowStock}</CardTitle>
+                  <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{products.filter((p) => p.stock < 10).length}</div>
+                  <p className="text-xs text-muted-foreground">{t.admin.analytics.catalog}</p>
                 </CardContent>
               </Card>
             </div>
@@ -1010,59 +1060,7 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          {/* Analytics Tab */}
-          <TabsContent value="analytics" className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.admin.analytics.title}</h2>
-              <p className="text-gray-600 mb-6">{t.admin.analytics.description}</p>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t.admin.analytics.totalProducts}</CardTitle>
-                  <Package className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{products.length}</div>
-                  <p className="text-xs text-muted-foreground">{t.admin.analytics.catalog}</p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t.admin.analytics.availableProducts}</CardTitle>
-                  <CheckCircle className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{products.filter((p) => p.available).length}</div>
-                  <p className="text-xs text-muted-foreground">{t.admin.analytics.catalog}</p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t.admin.analytics.totalStock}</CardTitle>
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{products.reduce((sum, p) => sum + p.stock, 0)}</div>
-                  <p className="text-xs text-muted-foreground">{t.admin.analytics.units}</p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t.admin.analytics.lowStock}</CardTitle>
-                  <AlertCircle className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{products.filter((p) => p.stock < 10).length}</div>
-                  <p className="text-xs text-muted-foreground">{t.admin.analytics.catalog}</p>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
 
 
                {/* Contact Info Tab */}
@@ -1080,7 +1078,7 @@ export default function AdminDashboard() {
                   <Input
                     value={contactData.phone}
                     onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
-                    placeholder="034 48 224 12"
+                    placeholder="+261 XX XX XXX XX"
                   />
                 </div>
                 <div>
@@ -1119,7 +1117,11 @@ export default function AdminDashboard() {
               </div>
 
               <div className="mt-6 flex gap-4">
-                <Button onClick={() => updateContactInfo(contactData)} className="bg-green-600 hover:bg-green-700">
+                <Button onClick={() => {
+
+                    updateContactInfo(contactData);
+                }}
+                        className="bg-green-600 hover:bg-green-700">
                   {t.admin.contactInfo.actions.update}
                 </Button>
                 <Button variant="outline" onClick={() => setContactData(contactInfo)}>
@@ -1231,6 +1233,9 @@ export default function AdminDashboard() {
                   <Label>{t.admin.addProduct.form.available}</Label>
                 </div>
                 <div className="flex gap-4">
+                   <Button variant="outline" onClick={() => setEditingProduct(null)}>
+                    {t.admin.addProduct.actions.cancel}
+                  </Button>
                   <Button
                     onClick={handleUpdateProduct}
                     className="bg-green-600 hover:bg-green-700"
@@ -1238,9 +1243,8 @@ export default function AdminDashboard() {
                   >
                     {t.admin.addProduct.actions.update}
                   </Button>
-                  <Button variant="outline" onClick={() => setEditingProduct(null)}>
-                    {t.admin.addProduct.actions.cancel}
-                  </Button>
+
+
                 </div>
               </div>
             </DialogContent>
