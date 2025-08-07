@@ -3,7 +3,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -14,12 +14,7 @@ import { useContactInfo } from "@/hooks/use-contact-info"
 
 export default function ContactPage() {
   const { t } = useLanguage()
-    const { contactInfo } = useContactInfo()
-
-    const contactData = contactInfo.reduce((acc, item) => {
-        acc[item.key] = item.value;
-        return acc;
-    }, {} as Record<string, string>);
+    const { getContactValue } = useContactInfo()
 
 
 
@@ -68,7 +63,7 @@ export default function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 whitespace-pre-line">{contactData?.address}</p>
+                    <p className="text-gray-700 whitespace-pre-line">{getContactValue("address")}</p>
                   </CardContent>
                 </Card>
 
@@ -85,7 +80,7 @@ export default function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 font-medium">{contactData?.phone}</p>
+                    <p className="text-gray-700 font-medium">{getContactValue("phone")}</p>
                     <p className="text-sm text-gray-500">{t.contact.info.phone.hours}</p>
                   </CardContent>
                 </Card>
@@ -103,7 +98,7 @@ export default function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 font-medium">{contactData?.email}</p>
+                    <p className="text-gray-700 font-medium">{getContactValue("email")}</p>
                     <p className="text-sm text-gray-500">{t.contact.info.email.response}</p>
                   </CardContent>
                 </Card>
@@ -117,7 +112,7 @@ export default function ContactPage() {
                 <div className="flex gap-4">
                   <Button asChild variant="outline" size="lg" className="flex-1 bg-transparent">
                       <a
-                          href={contactData?.facebook_url || "#"}
+                          href={getContactValue("facebook")|| "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center"
@@ -128,7 +123,7 @@ export default function ContactPage() {
                   </Button>
                   <Button asChild variant="outline" size="lg" className="flex-1 bg-transparent">
                       <a
-                          href={contactData?.linkedin_url || "#"}
+                          href={getContactValue("linkedin") || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center"
@@ -156,7 +151,7 @@ export default function ContactPage() {
             <div className="aspect-video bg-gray-200 flex items-center justify-center">
               <div className="text-center">
                 <MapPin className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{contactData?.address}</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{getContactValue("address")}</h3>
                 <p className="text-gray-600">{t.contact.map.coming}</p>
               </div>
             </div>

@@ -102,9 +102,6 @@ INSERT INTO contact_info (key, value) VALUES
 ('address', 'Andapa, Région SAVA, Madagascar'),
 ('phone', '+261 34 48 224 12'),
 ('email', 'contact@bionorthmadagascar.mg'),
-('facebook_url', 'https://facebook.com/bionorthmadagascar'),
-('linkedin_url', 'https://linkedin.com/company/bionorthmadagascar'),
-('business_hours_weekdays', 'Lundi - Vendredi: 8h00 - 17h00'),
-('business_hours_saturday', 'Samedi: 8h00 - 12h00'),
-('business_hours_sunday', 'Dimanche: Fermé')
-ON CONFLICT (key) DO NOTHING;
+('facebook', 'https://facebook.com/bionorthmadagascar'),
+('linkedin', 'https://linkedin.com/company/bionorthmadagascar')
+ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW();
