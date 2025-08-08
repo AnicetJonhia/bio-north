@@ -94,11 +94,7 @@ export default function AdminLoginPage() {
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-gray-500">
-              <p>Identifiants de démonstration :</p>
-              <p>Email: admin@bionorthmadagascar.mg</p>
-              <p>Mot de passe: BioNorth2025!</p>
-            </div>
+
           </CardContent>
         </Card>
       </div>
