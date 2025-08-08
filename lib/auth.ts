@@ -3,10 +3,19 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-const ADMIN_CREDENTIALS = {
-  email: "admin@bionorthmadagascar.mg",
-  password: "BioNorth2025!",
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+
+if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+    throw new Error("Les identifiants admin ne sont pas configurés dans les variables d'environnement.");
 }
+
+const ADMIN_CREDENTIALS = {
+    email: ADMIN_EMAIL,
+    password: ADMIN_PASSWORD,
+}
+
 
 export async function login(email: string, password: string) {
   if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
