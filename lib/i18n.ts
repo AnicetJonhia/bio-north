@@ -181,22 +181,10 @@ export const translations = {
       categories: {
         title: "Nos Catégories de Produits",
         description: "Une gamme complète de produits biologiques authentiques de Madagascar",
-        spices: {
-          title: "Épices & Aromates",
-          description: "Vanille, poivre, cannelle et autres épices authentiques",
-        },
-        oils: {
-          title: "Huiles Essentielles",
-          description: "Huiles pures distillées artisanalement",
-        },
-        plants: {
-          title: "Plantes Médicinales",
-          description: "Tisanes et plantes traditionnelles malgaches",
-        },
-        processed: {
-          title: "Produits Transformés",
-          description: "Miels, confitures et produits artisanaux",
-        },
+            actions : {
+                viewAll: "Voir plus",
+                viewLess: "Voir moins",
+            }
       },
     },
     // Contact page
@@ -722,22 +710,10 @@ export const translations = {
       categories: {
         title: "Our Product Categories",
         description: "A complete range of authentic organic products from Madagascar",
-        spices: {
-          title: "Spices & Aromatics",
-          description: "Vanilla, pepper, cinnamon and other authentic spices",
-        },
-        oils: {
-          title: "Essential Oils",
-          description: "Pure oils distilled artisanally",
-        },
-        plants: {
-          title: "Medicinal Plants",
-          description: "Traditional Malagasy herbal teas and plants",
-        },
-        processed: {
-          title: "Processed Products",
-          description: "Honey, jams and artisanal products",
-        },
+        actions : {
+            viewAll :"See more",
+            viewLess :"See less",
+        }
       },
     },
     // Contact page
