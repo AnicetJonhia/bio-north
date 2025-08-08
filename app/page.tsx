@@ -11,6 +11,7 @@ import { useCategories } from "@/hooks/use-categories"
 import {useCategory} from "@/contexts/category-context";
 import CircularCarousel from "@/components/circular-carousel";
 
+
 export default function HomePage() {
   const { t,locale } = useLanguage()
     const { getContactValue } = useContactInfo()
@@ -36,7 +37,7 @@ export default function HomePage() {
                   <Leaf className="w-4 h-4 mr-2" />
                   {t.home.hero.badge}
                 </Badge>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.home.hero.title}</h1>
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{getContactValue("company_name") || t.home.hero.title}</h1>
                 <p className="text-xl text-gray-600 leading-relaxed">{t.home.hero.description}</p>
               </div>
 

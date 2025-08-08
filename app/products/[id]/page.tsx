@@ -8,6 +8,7 @@ import { ArrowLeft, Star, ShoppingCart, Heart, Share2, Leaf, Award, Shield } fro
 import Image from "next/image"
 import Link from "next/link"
 import { useLanguage } from "@/contexts/language-context"
+import Loading from "@/components/loading";
 
 interface Product {
   id: string
@@ -57,12 +58,7 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t.common.loading}</p>
-        </div>
-      </div>
+      <Loading />
     )
   }
 

@@ -5,9 +5,11 @@ import { Badge } from "@/components/ui/badge"
 import { MapPin, Users, Award, Leaf, Target, Heart, Globe } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/contexts/language-context"
+import { useContactInfo } from "@/hooks/use-contact-info"
 
 export default function AboutPage() {
   const { t } = useLanguage()
+    const { getContactValue } = useContactInfo()
 
   return (
     <div className="min-h-screen">
@@ -16,7 +18,7 @@ export default function AboutPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <Badge className="bg-green-100 text-green-800 mb-4">{t.about.hero.badge}</Badge>
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{t.about.hero.title}</h1>
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{ getContactValue("company_name") || t.about.hero.title}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{t.about.hero.description}</p>
           </div>
         </div>
@@ -117,7 +119,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg text-gray-900">{t.about.company.legal.title}</h3>
-                    <p className="text-gray-600">{t.about.company.legal.value}</p>
+                    <p className="text-gray-600">{ getContactValue("company_name") || t.about.company.legal.value}</p>
                     <p className="text-sm text-gray-500">{t.about.company.legal.subtitle}</p>
                   </div>
                 </div>
@@ -128,7 +130,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg text-gray-900">{t.about.company.location.title}</h3>
-                    <p className="text-gray-600">{t.about.company.location.value}</p>
+                    <p className="text-gray-600">{ getContactValue("address") || t.about.company.location.value}</p>
                     <p className="text-sm text-gray-500">{t.about.company.location.subtitle}</p>
                   </div>
                 </div>
