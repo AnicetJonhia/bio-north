@@ -106,6 +106,7 @@ export default function AdminDashboard() {
   const [isConfirmDialogDeletingProduct, setIsConfirmDialogDeletingProduct] = useState(false);
 
     const [isUpdating, setIsUpdating] = useState(false)
+    const [isAdding, setIsAdding] = useState(false)
 
   const initialContactInfo = () => {
         setContactData({
@@ -213,7 +214,8 @@ export default function AdminDashboard() {
   }
 
   const handleAddProduct = async () => {
-    try {
+    setIsAdding(true)
+        try {
       const certifications = newProduct.certifications
         ? newProduct.certifications
             .split(",")
@@ -252,7 +254,9 @@ export default function AdminDashboard() {
       fetchStats()
     } catch (error) {
       setAlert({ type: "error", message: t.admin.addProduct.error })
-    }
+    } finally {
+        setIsAdding(false)
+        }
   }
 
   const handleUpdateProduct = async () => {
@@ -313,7 +317,7 @@ export default function AdminDashboard() {
   }
 
   const handleAddCategory = async () => {
-
+    setIsAdding(true)
     try {
       await createCategory(newCategory)
       setNewCategory({
@@ -328,6 +332,9 @@ export default function AdminDashboard() {
       setAlert({ type: "error", message: t.admin.categories.error.add })
     } finally {
       setIsAddCategoryDialogOpen(false);
+      setIsAdding(false)
+
+
     }
   }
 
@@ -787,13 +794,13 @@ export default function AdminDashboard() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button onClick={() =>{
+                    <Button disabled={isAdding} onClick={() =>{
 
                         handleAddCategory();
-                        setIsAddCategoryDialogOpen(false);
+
                       }}
                             className="w-full bg-green-600 hover:bg-green-700">
-                      {t.admin.categories.actions.add}
+                      { isAdding ? t.admin.categories.actions.adding : t.admin.categories.actions.add}
                     </Button>
                   </div>
                 </DialogContent>
@@ -1022,9 +1029,10 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="mt-6 flex gap-4">
-                  <Button onClick={handleAddProduct} className="bg-green-600 hover:bg-green-700" disabled={uploading}>
+                  <Button onClick={handleAddProduct} className="bg-green-600 hover:bg-green-700" disabled={uploading || isAdding}>
                     <Plus className="w-4 h-4 mr-2" />
-                    {t.admin.addProduct.actions.add}
+                    { isAdding ?  t.admin.addProduct.actions.adding :
+                        t.admin.addProduct.actions.add}
                   </Button>
                   <Button
                     variant="outline"
@@ -1359,7 +1367,7 @@ export default function AdminDashboard() {
                     : t.admin.categories.actions.update
                     }
                   </Button>
-                  <Button variant="outline" onClick={() => setEditingCategory(null)}>
+                  <Button  variant="outline" onClick={() => setEditingCategory(null)}>
                     {t.admin.categories.actions.cancel}
                   </Button>
                 </div>
