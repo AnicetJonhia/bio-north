@@ -4,10 +4,16 @@ import Link from "next/link"
 import { Leaf, Mail, Phone, MapPin, Facebook, Linkedin, Shield } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { useContactInfo } from "@/hooks/use-contact-info"
+import { useCategories } from "@/hooks/use-categories"
+import {useCategory} from "@/contexts/category-context";
+
 
 export default function Footer() {
-  const { t } = useLanguage()
+  const { t,locale } = useLanguage()
     const { getContactValue } = useContactInfo()
+
+    const { categories } = useCategories()
+    const { setSelectedCategory } = useCategory();
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -19,14 +25,22 @@ export default function Footer() {
               <div className="flex items-center justify-center w-8 h-8 bg-green-600 rounded-lg">
                 <Leaf className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-lg">Bio North Madagascar</span>
+              <span className="font-bold text-lg">{getContactValue("company_name")}</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">{t.footer.description}</p>
             <div className="flex space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-green-400 transition-colors">
-                <Facebook className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-green-400 transition-colors">
+
+                <Link
+                    href={getContactValue("facebook") || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Facebook className="w-5 h-5" />
+                </Link>
+
+
+              <Link href={getContactValue("linkedin") || "#"}  target="_blank"
+                    rel="noopener noreferrer">
                 <Linkedin className="w-5 h-5" />
               </Link>
             </div>
@@ -69,26 +83,17 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">{t.footer.ourProducts}</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/products?category=spices" className="text-gray-400 hover:text-white transition-colors">
-                  {t.footer.products.spices}
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=oils" className="text-gray-400 hover:text-white transition-colors">
-                  {t.footer.products.oils}
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=plants" className="text-gray-400 hover:text-white transition-colors">
-                  {t.footer.products.plants}
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=processed" className="text-gray-400 hover:text-white transition-colors">
-                  {t.footer.products.processed}
-                </Link>
-              </li>
+                {categories.map((category) => (
+                    <li key={category.id}>
+                        <Link
+                            href={`/products?category=${encodeURIComponent(category.name)}`}
+                            className="text-gray-400 hover:text-white transition-colors"
+                            onClick={() => setSelectedCategory(category.name)}
+                        >
+                            {locale === "en" && category.name_en ? category.name_en : category.name}
+                        </Link>
+                    </li>
+                ))}
             </ul>
           </div>
 

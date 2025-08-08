@@ -13,6 +13,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useProducts } from "@/hooks/use-products"
 import { useCategories } from "@/hooks/use-categories"
+import { useCategory } from "@/contexts/category-context"
 import { useLanguage } from "@/contexts/language-context"
 
 
@@ -21,7 +22,9 @@ export default function ProductsPage() {
   const { products, loading, error, searchProducts } = useProducts()
   const { categories } = useCategories()
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  // const [selectedCategory, setSelectedCategory] = useState("all")
+    const { selectedCategory, setSelectedCategory } = useCategory();
+
 
     const iconMapCategory = {
         leaf: Leaf,
@@ -32,6 +35,9 @@ export default function ProductsPage() {
   useEffect(() => {
     searchProducts(searchQuery || undefined, selectedCategory !== "all" ? selectedCategory : undefined)
   }, [searchQuery, selectedCategory])
+
+
+
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
@@ -229,7 +235,7 @@ export default function ProductsPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
 
             {categories.map((category) => {
-                const IconCat = iconMapCategory[category.icon?.toLowerCase()] || Leaf;
+                const IconCat = iconMapCategory[category?.icon?.toLowerCase()] || Leaf;
                 return (
                   <Card
                       key={category.id}
