@@ -1,16 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, Leaf } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import LanguageSwitcher from "@/components/language-switcher"
+import { useContactInfo } from "@/hooks/use-contact-info"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { t } = useLanguage()
+    const { getContactValue , loading} = useContactInfo()
 
   const navigation = [
     { name: t.nav.home, href: "/" },
@@ -18,6 +20,9 @@ export default function Header() {
     { name: t.nav.products, href: "/products" },
     { name: t.nav.contact, href: "/contact" },
   ]
+
+
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -28,7 +33,11 @@ export default function Header() {
             <div className="flex items-center justify-center w-8 h-8 bg-green-600 rounded-lg">
               <Leaf className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl text-gray-900">Bio North Madagascar</span>
+              {loading ?(
+                    <span >{t.common.loading}</span>
+                  ) :(
+                  <span className="font-bold text-xl text-gray-900">{getContactValue("company_name") || "Bio North Madagascar"}</span>
+              )}
           </Link>
 
           {/* Desktop Navigation */}

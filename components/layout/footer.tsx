@@ -7,10 +7,12 @@ import { useContactInfo } from "@/hooks/use-contact-info"
 import { useCategories } from "@/hooks/use-categories"
 import {useCategory} from "@/contexts/category-context";
 
+import type React from "react";
+
 
 export default function Footer() {
   const { t,locale } = useLanguage()
-    const { getContactValue } = useContactInfo()
+    const { getContactValue, loading } = useContactInfo()
 
     const { categories } = useCategories()
     const { setSelectedCategory } = useCategory();
@@ -25,7 +27,13 @@ export default function Footer() {
               <div className="flex items-center justify-center w-8 h-8 bg-green-600 rounded-lg">
                 <Leaf className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-lg">{getContactValue("company_name")}</span>
+                { loading ? (
+                               <p>{t.common.loading}</p>
+                ) : (
+                    getContactValue("company_name") && (
+                    <span className="font-bold text-lg">{getContactValue("company_name")}</span>)
+                )}
+
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">{t.footer.description}</p>
             <div className="flex space-x-4">
@@ -82,41 +90,53 @@ export default function Footer() {
           {/* Products */}
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">{t.footer.ourProducts}</h3>
-            <ul className="space-y-2">
-                {categories.map((category) => (
-                    <li key={category.id}>
-                        <Link
-                            href={`/products?category=${encodeURIComponent(category.name)}`}
-                            className="text-gray-400 hover:text-white transition-colors"
-                            onClick={() => setSelectedCategory(category.name)}
-                        >
-                            {locale === "en" && category.name_en ? category.name_en : category.name}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+              {
+                loading ? (
+                    <p>{t.common.loading}</p>
+                ) : (
+                    <ul className="space-y-2">
+                        {categories.map((category) => (
+                            <li key={category.id}>
+                                <Link
+                                    href={`/products?category=${encodeURIComponent(category.name)}`}
+                                    className="text-gray-400 hover:text-white transition-colors"
+                                    onClick={() => setSelectedCategory(category.name)}
+                                >
+                                    {locale === "en" && category.name_en ? category.name_en : category.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                )
+              }
+
           </div>
 
           {/* Contact Info */}
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">{t.footer.contact}</h3>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                <div className="text-gray-400 text-sm">
-                  <div>{getContactValue("address")}</div>
+              { loading ? (
+                  <p>{t.common.loading}</p>
+              ) : (
+              <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                      <MapPin className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                      <div className="text-gray-400 text-sm">
+                          <div>{getContactValue("address")}</div>
 
-                </div>
+                      </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                      <Phone className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <span className="text-gray-400 text-sm">{getContactValue("phone")}</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                      <Mail className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <span className="text-gray-400 text-sm">{getContactValue("email")}</span>
+                  </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">{getContactValue("phone")}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">{getContactValue("email")}</span>
-              </div>
-            </div>
+              )}
+
           </div>
         </div>
 

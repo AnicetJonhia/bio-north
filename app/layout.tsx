@@ -36,9 +36,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <LanguageProvider>
             <CategoryProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+              <Header />
+              <main>{children}</main>
+              <Footer />
             </CategoryProvider>
         </LanguageProvider>
       </body>

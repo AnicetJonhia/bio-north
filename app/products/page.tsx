@@ -15,6 +15,7 @@ import { useProducts } from "@/hooks/use-products"
 import { useCategories } from "@/hooks/use-categories"
 import { useCategory } from "@/contexts/category-context"
 import { useLanguage } from "@/contexts/language-context"
+import Loading from "@/components/loading";
 
 
 export default function ProductsPage() {
@@ -52,12 +53,7 @@ export default function ProductsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t.common.loading}</p>
-        </div>
-      </div>
+      <Loading/>
     )
   }
 

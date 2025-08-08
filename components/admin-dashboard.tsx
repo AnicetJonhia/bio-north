@@ -17,6 +17,8 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { AlertDialog,  AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog"
 
+import Loading from "@/components/loading"
+
 import {
   LogOut,
   CheckCircle,
@@ -58,6 +60,7 @@ export default function AdminDashboard() {
   const [contactData, setContactData] = useState({
     phone: "",
     email: "",
+      company_name:"",
     address: "",
     facebook: "",
     linkedin: "",
@@ -112,6 +115,7 @@ export default function AdminDashboard() {
         setContactData({
             phone: getContactValue("phone"),
             email: getContactValue("email"),
+            company_name: getContactValue("company_name"),
             address: getContactValue("address"),
             facebook: getContactValue("facebook"),
             linkedin: getContactValue("linkedin"),
@@ -538,12 +542,7 @@ export default function AdminDashboard() {
 
     if (productsLoading || categoriesLoading || messagesLoading || contactInfoLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t.common.loading}</p>
-        </div>
-      </div>
+      <Loading />
     )
   }
 
@@ -1126,22 +1125,16 @@ export default function AdminDashboard() {
           <Card>
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <Label>{t.admin.contactInfo.phone}</Label>
-                  <Input
-                    value={contactData.phone}
-                    onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
-                    placeholder="+261 XX XX XXX XX"
-                  />
-                </div>
-                <div>
-                  <Label>{t.admin.contactInfo.email}</Label>
-                  <Input
-                    value={contactData.email}
-                    onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
-                    placeholder="contact@bio-north.mg"
-                  />
-                </div>
+
+
+                  <div>
+                      <Label>{t.admin.contactInfo.companyName}</Label>
+                      <Input
+                          value={contactData.company_name}
+                          onChange={(e) => setContactData({ ...contactData, company_name: e.target.value })}
+                          placeholder="Bio North"
+                      />
+                  </div>
                 <div>
                   <Label>{t.admin.contactInfo.address}</Label>
                   <Textarea
@@ -1151,6 +1144,24 @@ export default function AdminDashboard() {
                     rows={3}
                   />
                 </div>
+
+                  <div>
+                      <Label>{t.admin.contactInfo.phone}</Label>
+                      <Input
+                          value={contactData.phone}
+                          onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
+                          placeholder="+261 XX XX XXX XX"
+                      />
+                  </div>
+
+                  <div>
+                      <Label>{t.admin.contactInfo.email}</Label>
+                      <Input
+                          value={contactData.email}
+                          onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                          placeholder="contact@bio-north.mg"
+                      />
+                  </div>
                 <div>
                   <Label>{t.admin.contactInfo.facebook}</Label>
                   <Input
