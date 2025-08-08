@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {Search, Filter, Star, Leaf, Flower, Package, Droplet, ShoppingCart, Eye} from "lucide-react"
+import {Search, Filter, Star, Leaf, Flower, Package, Droplet, X, Eye, ArrowRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useProducts } from "@/hooks/use-products"
@@ -22,8 +22,11 @@ export default function ProductsPage() {
   const { products, loading, error, searchProducts } = useProducts()
   const { categories } = useCategories()
   const [searchQuery, setSearchQuery] = useState("")
-  // const [selectedCategory, setSelectedCategory] = useState("all")
+
     const { selectedCategory, setSelectedCategory } = useCategory();
+
+    const [showAllCategories, setShowAllCategories] = useState(false);
+    const visibleCategories = showAllCategories ? categories : categories.slice(0, 4);
 
 
     const iconMapCategory = {
@@ -90,7 +93,16 @@ export default function ProductsPage() {
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex flex-col sm:flex-row gap-4 flex-1">
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  {searchQuery ? (
+                      <X
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 cursor-pointer"
+                          onClick={() => setSearchQuery("") }
+                      />
+                  ) : (
+                      <Search
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                      />
+                  )}
                 <Input
                   placeholder={t.products.filters.search}
                   className="pl-10"
@@ -232,35 +244,83 @@ export default function ProductsPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.products.categories.description}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="space-y-4">
+              { !showAllCategories ? (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {visibleCategories.map((category) => {
+                          const IconCat = iconMapCategory[category?.icon?.toLowerCase()] || Leaf;
+                          return (
+                              <Card
+                                  key={category.id}
+                                  className="text-center hover:shadow-lg transition-shadow cursor-pointer"
+                                  onClick={() => handleCategoryChange(category.name)}
+                                  asChild
+                              >
+                                  <Link href={`/products?category=${encodeURIComponent(category.name)}`}>
+                                      <CardHeader>
+                                          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                              <IconCat className="w-8 h-8 text-green-600" />
+                                          </div>
+                                          <CardTitle className="text-lg">
+                                              {locale === 'en' && category.name_en ? category.name_en : category.name}
+                                          </CardTitle>
+                                      </CardHeader>
+                                      <CardContent>
+                                          <p className="text-gray-600 text-sm">
+                                              {locale === 'en' && category.description_en
+                                                  ? category.description_en
+                                                  : category.description}
+                                          </p>
+                                      </CardContent>
+                                  </Link>
+                              </Card>
+                          );
+                      })}
+                  </div>
+              ) : (
 
-            {categories.map((category) => {
-                const IconCat = iconMapCategory[category?.icon?.toLowerCase()] || Leaf;
-                return (
-                  <Card
-                      key={category.id}
-                      className="text-center hover:shadow-lg transition-shadow cursor-pointer"
-                      onClick={() => handleCategoryChange(category.name)}
-                      asChild
-                  >
-                    <Link href={`/products?category=${encodeURIComponent(category.name)}`}>
-                      <CardHeader>
-                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <IconCat className="w-8 h-8 text-green-600" />
-                        </div>
-                        <CardTitle className="text-lg">
-                          {locale === "en" && category.name_en ? category.name_en : category.name}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-gray-600 text-sm">
-                          {locale === "en" && category.description_en ? category.description_en : category.description}
-                        </p>
-                      </CardContent>
-                    </Link>
-                  </Card>
-                )
-            })}
+                  <div className="overflow-x-auto whitespace-nowrap space-x-4 flex pb-2">
+                      {categories.map((category) => {
+                          const IconCat = iconMapCategory[category?.icon?.toLowerCase()] || Leaf;
+                          return (
+                              <div
+                                  key={category.id}
+                                  className="min-w-[250px] inline-block"
+                                  onClick={() => handleCategoryChange(category.name)}
+                              >
+                                  <Card className="text-center hover:shadow-lg transition-shadow cursor-pointer h-full" asChild>
+                                      <Link href={`/products?category=${encodeURIComponent(category.name)}`}>
+                                          <CardHeader>
+                                              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                  <IconCat className="w-8 h-8 text-green-600" />
+                                              </div>
+                                              <CardTitle className="text-lg truncate">
+                                                  {locale === 'en' && category.name_en ? category.name_en : category.name}
+                                              </CardTitle>
+                                          </CardHeader>
+                                          <CardContent>
+                                              <p className="text-gray-600 text-sm line-clamp-2">
+                                                  {locale === 'en' && category.description_en
+                                                      ? category.description_en
+                                                      : category.description}
+                                              </p>
+                                          </CardContent>
+                                      </Link>
+                                  </Card>
+                              </div>
+                          );
+                      })}
+                  </div>
+
+              )}
+
+            <div className="text-end">
+                <Button variant="outline" onClick={() => setShowAllCategories((prev) => !prev)}>
+                    {showAllCategories ? t.products.categories.actions.viewLess : t.products.categories.actions.viewAll}
+                    <ArrowRight className={`w-4 h-4 ml-2 transition-transform ${showAllCategories ? "rotate-180" : ""}`} />
+                </Button>
+            </div>
+
           </div>
         </div>
       </section>

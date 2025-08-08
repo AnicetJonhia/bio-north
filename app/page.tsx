@@ -1,17 +1,28 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Leaf, MapPin, Users, Award, ArrowRight, Play } from "lucide-react"
+import { Leaf, Flower, Package, Droplet, MapPin, Users, Award, ArrowRight, Play ,CornerRightUp } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useLanguage } from "@/contexts/language-context"
 import { useContactInfo } from "@/hooks/use-contact-info"
+import { useCategories } from "@/hooks/use-categories"
+import {useCategory} from "@/contexts/category-context";
+import CircularCarousel from "@/components/circular-carousel";
 
 export default function HomePage() {
-  const { t } = useLanguage()
+  const { t,locale } = useLanguage()
     const { getContactValue } = useContactInfo()
+
+    const { categories } = useCategories()
+    const { setSelectedCategory } = useCategory();
+    const iconMapCategory = {
+        leaf: Leaf,
+        flower: Flower,
+        package: Package,
+        droplet: Droplet,
+    };
 
   return (
     <div className="min-h-screen">
@@ -43,8 +54,9 @@ export default function HomePage() {
                   asChild
                 >
                   <Link href="/about">
-                    <Play className="w-5 h-5 mr-2" />
+
                     {t.home.hero.cta2}
+                      <CornerRightUp  className="w-5 h-5 ml-2" />
                   </Link>
                 </Button>
               </div>
@@ -110,73 +122,14 @@ export default function HomePage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.home.services.description}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="group hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Leaf className="w-6 h-6 text-green-600" />
-                </div>
-                <CardTitle>{t.home.services.spices.title}</CardTitle>
-                <CardDescription>{t.home.services.spices.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
-                  alt="Épices malgaches"
-                  width={300}
-                  height={200}
-                  className="rounded-lg object-cover w-full h-48 mb-4"
-                />
-                <Button variant="outline" className="w-full group-hover:bg-green-50 bg-transparent" asChild>
-                  <Link href="/products?category=Épices & Aromates">{t.home.services.learnMore}</Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <CircularCarousel
+                categories={categories}
+                locale={locale}
+                iconMapCategory={iconMapCategory}
+                setSelectedCategory={setSelectedCategory}
+            />
 
-            <Card className="group hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Users className="w-6 h-6 text-green-600" />
-                </div>
-                <CardTitle>{t.home.services.processed.title}</CardTitle>
-                <CardDescription>{t.home.services.processed.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
-                  alt="Produits transformés"
-                  width={300}
-                  height={200}
-                  className="rounded-lg object-cover w-full h-48 mb-4"
-                />
-                <Button variant="outline" className="w-full group-hover:bg-green-50 bg-transparent" asChild>
-                  <Link href="/products?category=Produits Transformés">{t.home.services.learnMore}</Link>
-                </Button>
-              </CardContent>
-            </Card>
 
-            <Card className="group hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Award className="w-6 h-6 text-green-600" />
-                </div>
-                <CardTitle>{t.home.services.medicinal.title}</CardTitle>
-                <CardDescription>{t.home.services.medicinal.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
-                  alt="Plantes médicinales"
-                  width={300}
-                  height={200}
-                  className="rounded-lg object-cover w-full h-48 mb-4"
-                />
-                <Button variant="outline" className="w-full group-hover:bg-green-50 bg-transparent" asChild>
-                  <Link href="/products?category=Plantes Médicinales">{t.home.services.learnMore}</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </section>
 

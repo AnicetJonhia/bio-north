@@ -21,7 +21,7 @@ export const translations = {
         description:
           "Découvrez l'authenticité des produits biologiques malgaches de la région SAVA. Nous valorisons le terroir d'Andapa à travers des produits naturels de qualité exceptionnelle.",
         cta1: "Découvrir nos produits",
-        cta2: "Voir la vidéo",
+        cta2: "Savoir plus",
         stats: {
           bio: "Bio",
           local: "Local",
@@ -181,22 +181,10 @@ export const translations = {
       categories: {
         title: "Nos Catégories de Produits",
         description: "Une gamme complète de produits biologiques authentiques de Madagascar",
-        spices: {
-          title: "Épices & Aromates",
-          description: "Vanille, poivre, cannelle et autres épices authentiques",
-        },
-        oils: {
-          title: "Huiles Essentielles",
-          description: "Huiles pures distillées artisanalement",
-        },
-        plants: {
-          title: "Plantes Médicinales",
-          description: "Tisanes et plantes traditionnelles malgaches",
-        },
-        processed: {
-          title: "Produits Transformés",
-          description: "Miels, confitures et produits artisanaux",
-        },
+            actions : {
+                viewAll: "Voir plus",
+                viewLess: "Voir moins",
+            }
       },
     },
     // Contact page
@@ -563,7 +551,7 @@ export const translations = {
         description:
           "Discover the authenticity of Malagasy organic products from the SAVA region. We showcase the Andapa terroir through exceptional quality natural products.",
         cta1: "Discover our products",
-        cta2: "Watch video",
+        cta2: "Learn more",
         stats: {
           bio: "Organic",
           local: "Local",
@@ -722,22 +710,10 @@ export const translations = {
       categories: {
         title: "Our Product Categories",
         description: "A complete range of authentic organic products from Madagascar",
-        spices: {
-          title: "Spices & Aromatics",
-          description: "Vanilla, pepper, cinnamon and other authentic spices",
-        },
-        oils: {
-          title: "Essential Oils",
-          description: "Pure oils distilled artisanally",
-        },
-        plants: {
-          title: "Medicinal Plants",
-          description: "Traditional Malagasy herbal teas and plants",
-        },
-        processed: {
-          title: "Processed Products",
-          description: "Honey, jams and artisanal products",
-        },
+        actions : {
+            viewAll :"See more",
+            viewLess :"See less",
+        }
       },
     },
     // Contact page
