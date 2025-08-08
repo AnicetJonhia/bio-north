@@ -21,7 +21,7 @@ export const translations = {
         description:
           "Découvrez l'authenticité des produits biologiques malgaches de la région SAVA. Nous valorisons le terroir d'Andapa à travers des produits naturels de qualité exceptionnelle.",
         cta1: "Découvrir nos produits",
-        cta2: "Voir la vidéo",
+        cta2: "Savoir plus",
         stats: {
           bio: "Bio",
           local: "Local",
@@ -563,7 +563,7 @@ export const translations = {
         description:
           "Discover the authenticity of Malagasy organic products from the SAVA region. We showcase the Andapa terroir through exceptional quality natural products.",
         cta1: "Discover our products",
-        cta2: "Watch video",
+        cta2: "Learn more",
         stats: {
           bio: "Organic",
           local: "Local",

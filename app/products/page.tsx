@@ -22,7 +22,7 @@ export default function ProductsPage() {
   const { products, loading, error, searchProducts } = useProducts()
   const { categories } = useCategories()
   const [searchQuery, setSearchQuery] = useState("")
-  // const [selectedCategory, setSelectedCategory] = useState("all")
+
     const { selectedCategory, setSelectedCategory } = useCategory();
 
 
