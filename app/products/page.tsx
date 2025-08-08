@@ -8,23 +8,36 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Filter, Star, Leaf, ShoppingCart, Eye } from "lucide-react"
+import {Search, Filter, Star, Leaf, Flower, Package, Droplet, ShoppingCart, Eye} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useProducts } from "@/hooks/use-products"
 import { useCategories } from "@/hooks/use-categories"
+import { useCategory } from "@/contexts/category-context"
 import { useLanguage } from "@/contexts/language-context"
+
 
 export default function ProductsPage() {
   const { t, locale } = useLanguage()
   const { products, loading, error, searchProducts } = useProducts()
   const { categories } = useCategories()
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  // const [selectedCategory, setSelectedCategory] = useState("all")
+    const { selectedCategory, setSelectedCategory } = useCategory();
 
+
+    const iconMapCategory = {
+        leaf: Leaf,
+        flower: Flower,
+        package: Package,
+        droplet: Droplet,
+    };
   useEffect(() => {
     searchProducts(searchQuery || undefined, selectedCategory !== "all" ? selectedCategory : undefined)
   }, [searchQuery, selectedCategory])
+
+
+
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
@@ -55,6 +68,8 @@ export default function ProductsPage() {
       </div>
     )
   }
+
+
 
   return (
     <div className="min-h-screen">
@@ -153,7 +168,7 @@ export default function ProductsPage() {
                           <Star
                             key={i}
                             className={`w-4 h-4 ${
-                              i < (product.rating || 5) ? "text-yellow-400 fill-current" : "text-gray-300"
+                              i < (product?.rating || 5) ? "text-yellow-400 fill-current" : "text-gray-300"
                             }`}
                           />
                         ))}
@@ -190,16 +205,16 @@ export default function ProductsPage() {
                           {t.products.product.seeDetails}
                         </Link>
                       </Button>
-                      <Button
-                        size="sm"
-                        disabled={!product.available || product.stock === 0}
-                        className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-300"
-                      >
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        {product.available && product.stock > 0
-                          ? t.products.product.addToCart
-                          : t.products.product.notAvailable}
-                      </Button>
+                      {/*<Button*/}
+                      {/*  size="sm"*/}
+                      {/*  disabled={!product.available || product.stock === 0}*/}
+                      {/*  className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-300"*/}
+                      {/*>*/}
+                      {/*  <ShoppingCart className="w-4 h-4 mr-2" />*/}
+                      {/*  {product.available && product.stock > 0*/}
+                      {/*    ? t.products.product.addToCart*/}
+                      {/*    : t.products.product.notAvailable}*/}
+                      {/*</Button>*/}
                     </div>
                   </CardContent>
                 </Card>
@@ -218,25 +233,34 @@ export default function ProductsPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.slice(0, 4).map((category) => (
-              <Card key={category.id} className="text-center hover:shadow-lg transition-shadow cursor-pointer" asChild>
-                <Link href={`/products?category=${encodeURIComponent(category.name)}`}>
-                  <CardHeader>
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Leaf className="w-8 h-8 text-green-600" />
-                    </div>
-                    <CardTitle className="text-lg">
-                      {locale === "en" && category.name_en ? category.name_en : category.name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 text-sm">
-                      {locale === "en" && category.description_en ? category.description_en : category.description}
-                    </p>
-                  </CardContent>
-                </Link>
-              </Card>
-            ))}
+
+            {categories.map((category) => {
+                const IconCat = iconMapCategory[category?.icon?.toLowerCase()] || Leaf;
+                return (
+                  <Card
+                      key={category.id}
+                      className="text-center hover:shadow-lg transition-shadow cursor-pointer"
+                      onClick={() => handleCategoryChange(category.name)}
+                      asChild
+                  >
+                    <Link href={`/products?category=${encodeURIComponent(category.name)}`}>
+                      <CardHeader>
+                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <IconCat className="w-8 h-8 text-green-600" />
+                        </div>
+                        <CardTitle className="text-lg">
+                          {locale === "en" && category.name_en ? category.name_en : category.name}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-gray-600 text-sm">
+                          {locale === "en" && category.description_en ? category.description_en : category.description}
+                        </p>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                )
+            })}
           </div>
         </div>
       </section>

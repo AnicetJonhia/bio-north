@@ -166,46 +166,46 @@ export default function ProductDetailPage() {
               </span>
             </div>
 
-            {/* Quantity & Actions */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <label className="font-medium text-gray-700">Quantité:</label>
-                <div className="flex items-center border rounded-lg">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 hover:bg-gray-100"
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </button>
-                  <span className="px-4 py-2 border-x">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                    className="px-3 py-2 hover:bg-gray-100"
-                    disabled={quantity >= product.stock}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
+            {/*/!* Quantity & Actions *!/*/}
+            {/*<div className="space-y-4">*/}
+            {/*  <div className="flex items-center gap-4">*/}
+            {/*    <label className="font-medium text-gray-700">Quantité:</label>*/}
+            {/*    <div className="flex items-center border rounded-lg">*/}
+            {/*      <button*/}
+            {/*        onClick={() => setQuantity(Math.max(1, quantity - 1))}*/}
+            {/*        className="px-3 py-2 hover:bg-gray-100"*/}
+            {/*        disabled={quantity <= 1}*/}
+            {/*      >*/}
+            {/*        -*/}
+            {/*      </button>*/}
+            {/*      <span className="px-4 py-2 border-x">{quantity}</span>*/}
+            {/*      <button*/}
+            {/*        onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}*/}
+            {/*        className="px-3 py-2 hover:bg-gray-100"*/}
+            {/*        disabled={quantity >= product.stock}*/}
+            {/*      >*/}
+            {/*        +*/}
+            {/*      </button>*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
 
-              <div className="flex gap-4">
-                <Button
-                  size="lg"
-                  className="flex-1 bg-green-600 hover:bg-green-700"
-                  disabled={!product.available || product.stock === 0}
-                >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Ajouter au panier
-                </Button>
-                <Button size="lg" variant="outline">
-                  <Heart className="w-5 h-5" />
-                </Button>
-                <Button size="lg" variant="outline">
-                  <Share2 className="w-5 h-5" />
-                </Button>
-              </div>
-            </div>
+            {/*  <div className="flex gap-4">*/}
+            {/*    <Button*/}
+            {/*      size="lg"*/}
+            {/*      className="flex-1 bg-green-600 hover:bg-green-700"*/}
+            {/*      disabled={!product.available || product.stock === 0}*/}
+            {/*    >*/}
+            {/*      <ShoppingCart className="w-5 h-5 mr-2" />*/}
+            {/*      Ajouter au panier*/}
+            {/*    </Button>*/}
+            {/*    <Button size="lg" variant="outline">*/}
+            {/*      <Heart className="w-5 h-5" />*/}
+            {/*    </Button>*/}
+            {/*    <Button size="lg" variant="outline">*/}
+            {/*      <Share2 className="w-5 h-5" />*/}
+            {/*    </Button>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
 
             {/* Features */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t">
@@ -215,11 +215,11 @@ export default function ProductDetailPage() {
               </div>
               <div className="text-center">
                 <Award className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <p className="text-sm font-medium">Qualité Premium</p>
+                <p className="text-sm font-medium">{t.products.product.quality}</p>
               </div>
               <div className="text-center">
                 <Shield className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <p className="text-sm font-medium">Garanti</p>
+                <p className="text-sm font-medium">{t.products.product.guarantee}</p>
               </div>
             </div>
           </div>

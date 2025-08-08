@@ -175,6 +175,8 @@ export const translations = {
         inStock: "En stock",
         outOfStock: "Rupture de stock",
         addToCart: "Ajouter au panier",
+        quality: "Qualité Premium",
+        guarantee: "Garanti",
       },
       categories: {
         title: "Nos Catégories de Produits",
@@ -714,6 +716,8 @@ export const translations = {
         inStock: "In stock",
         outOfStock: "Out of stock",
         addToCart: "Add to cart",
+      quality : "Premium Quality",
+          guarantee: "Guaranteed",
       },
       categories: {
         title: "Our Product Categories",
