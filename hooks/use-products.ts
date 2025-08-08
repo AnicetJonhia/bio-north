@@ -73,7 +73,7 @@ export function useProducts() {
 
   const searchProducts = async (query?: string, category?: string) => {
     try {
-      setLoading(true)
+
       const params = new URLSearchParams()
       if (query) params.append("q", query)
       if (category && category !== "all") params.append("category", category)
@@ -84,8 +84,6 @@ export function useProducts() {
       setProducts(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Search failed")
-    } finally {
-      setLoading(false)
     }
   }
 
