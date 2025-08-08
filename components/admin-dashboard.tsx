@@ -106,6 +106,7 @@ export default function AdminDashboard() {
   const [isConfirmDialogDeletingProduct, setIsConfirmDialogDeletingProduct] = useState(false);
 
     const [isUpdating, setIsUpdating] = useState(false)
+    const [isAdding, setIsAdding] = useState(false)
 
   const initialContactInfo = () => {
         setContactData({
@@ -213,7 +214,8 @@ export default function AdminDashboard() {
   }
 
   const handleAddProduct = async () => {
-    try {
+    setIsAdding(true)
+        try {
       const certifications = newProduct.certifications
         ? newProduct.certifications
             .split(",")
@@ -252,12 +254,14 @@ export default function AdminDashboard() {
       fetchStats()
     } catch (error) {
       setAlert({ type: "error", message: t.admin.addProduct.error })
-    }
+    } finally {
+        setIsAdding(false)
+        }
   }
 
   const handleUpdateProduct = async () => {
     if (!editingProduct) return
-
+    setIsUpdating(true)
     try {
       const certifications =
         typeof editingProduct.certifications === "string"
@@ -284,6 +288,8 @@ export default function AdminDashboard() {
       fetchStats()
     } catch (error) {
       setAlert({ type: "error", message: t.admin.addProduct.updateError })
+    } finally {
+        setIsUpdating(false)
     }
   }
 
@@ -311,7 +317,7 @@ export default function AdminDashboard() {
   }
 
   const handleAddCategory = async () => {
-
+    setIsAdding(true)
     try {
       await createCategory(newCategory)
       setNewCategory({
@@ -326,18 +332,23 @@ export default function AdminDashboard() {
       setAlert({ type: "error", message: t.admin.categories.error.add })
     } finally {
       setIsAddCategoryDialogOpen(false);
+      setIsAdding(false)
+
+
     }
   }
 
   const handleUpdateCategory = async () => {
     if (!editingCategory) return
-
+    setIsUpdating(true)
     try {
       await updateCategory(editingCategory.id, editingCategory)
       setEditingCategory(null)
       setAlert({ type: "success", message: t.admin.categories.success.updated })
     } catch (error) {
       setAlert({ type: "error", message: t.admin.categories.error.update })
+    } finally {
+        setIsUpdating(false)
     }
   }
 
@@ -783,13 +794,13 @@ export default function AdminDashboard() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button onClick={() =>{
+                    <Button disabled={isAdding} onClick={() =>{
 
                         handleAddCategory();
-                        setIsAddCategoryDialogOpen(false);
+
                       }}
                             className="w-full bg-green-600 hover:bg-green-700">
-                      {t.admin.categories.actions.add}
+                      { isAdding ? t.admin.categories.actions.adding : t.admin.categories.actions.add}
                     </Button>
                   </div>
                 </DialogContent>
@@ -1018,9 +1029,10 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="mt-6 flex gap-4">
-                  <Button onClick={handleAddProduct} className="bg-green-600 hover:bg-green-700" disabled={uploading}>
+                  <Button onClick={handleAddProduct} className="bg-green-600 hover:bg-green-700" disabled={uploading || isAdding}>
                     <Plus className="w-4 h-4 mr-2" />
-                    {t.admin.addProduct.actions.add}
+                    { isAdding ?  t.admin.addProduct.actions.adding :
+                        t.admin.addProduct.actions.add}
                   </Button>
                   <Button
                     variant="outline"
@@ -1280,9 +1292,12 @@ export default function AdminDashboard() {
                   <Button
                     onClick={handleUpdateProduct}
                     className="bg-green-600 hover:bg-green-700"
-                    disabled={uploading}
+                    disabled={uploading || isUpdating}
+
                   >
-                    {t.admin.addProduct.actions.update}
+                    { isUpdating ?
+                        t.admin.addProduct.actions.updating
+                        : t.admin.addProduct.actions.update}
                   </Button>
 
 
@@ -1346,10 +1361,13 @@ export default function AdminDashboard() {
                   </Select>
                 </div>
                 <div className="flex gap-4">
-                  <Button onClick={handleUpdateCategory} className="bg-green-600 hover:bg-green-700">
-                    {t.admin.categories.actions.update}
+                  <Button disabled={isUpdating} onClick={handleUpdateCategory} className="bg-green-600 hover:bg-green-700">
+                    { isUpdating
+                        ? t.admin.categories.actions.updating
+                    : t.admin.categories.actions.update
+                    }
                   </Button>
-                  <Button variant="outline" onClick={() => setEditingCategory(null)}>
+                  <Button  variant="outline" onClick={() => setEditingCategory(null)}>
                     {t.admin.categories.actions.cancel}
                   </Button>
                 </div>

@@ -326,7 +326,9 @@ export const translations = {
         icon: "Icône",
         actions: {
           add: "Ajouter la catégorie",
+            adding : "Ajout  de la catégorie ...",
           update: "Mettre à jour",
+            updating:" Mise à jour ...",
           edit: "Modifier",
           delete: "Supprimer",
           cancel: "Annuler",
@@ -408,7 +410,9 @@ export const translations = {
         },
         actions: {
           add: "Ajouter le produit",
+            adding: "Ajout du produit ...",
           update: "Mettre à jour",
+            updating: "Mise à jour ...",
           reset: "Réinitialiser",
           cancel: "Annuler",
         },
@@ -859,7 +863,9 @@ export const translations = {
         icon: "Icon",
         actions: {
           add: "Add category",
+            adding : "Adding category...",
           update: "Update",
+            updating: "Updating ...",
           edit: "Edit",
           delete: "Delete",
           cancel: "Cancel",
@@ -941,7 +947,9 @@ export const translations = {
         },
         actions: {
           add: "Add product",
+            adding : "Adding product ...",
           update: "Update",
+            updating: "Updating ...",
           reset: "Reset",
           cancel: "Cancel",
         },
