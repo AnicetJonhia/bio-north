@@ -25,6 +25,9 @@ export default function HomePage() {
         droplet: Droplet,
     };
 
+    if (!t || !categories) return <div>Loading...</div>;
+
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -37,7 +40,7 @@ export default function HomePage() {
                   <Leaf className="w-4 h-4 mr-2" />
                   {t.home.hero.badge}
                 </Badge>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{getContactValue("company_name") || t.home.hero.title}</h1>
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{getContactValue("company_name") || t.home.hero?.title}</h1>
                 <p className="text-xl text-gray-600 leading-relaxed">{t.home.hero.description}</p>
               </div>
 
@@ -123,12 +126,15 @@ export default function HomePage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.home.services.description}</p>
           </div>
 
+            {categories?.length > 0 && (
             <CircularCarousel
-                categories={categories}
-                locale={locale}
-                iconMapCategory={iconMapCategory}
-                setSelectedCategory={setSelectedCategory}
+              categories={categories}
+              locale={locale}
+              iconMapCategory={iconMapCategory}
+              setSelectedCategory={setSelectedCategory}
             />
+          )}
+
 
 
         </div>

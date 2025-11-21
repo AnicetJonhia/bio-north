@@ -51,6 +51,8 @@ export default function ProductsPage() {
     setSelectedCategory(category)
   }
 
+
+
   if (loading) {
     return (
       <Loading/>
